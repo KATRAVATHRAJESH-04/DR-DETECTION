@@ -1,0 +1,58 @@
+# ── Secrets & Environment ──────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Python Artifacts ───────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+*.egg
+.pytest_cache/
+
+# ── Virtual Environments ───────────────────────────────────────
+venv/
+.venv/
+env/
+
+# ── Large Data & Model Weights (DO NOT COMMIT) ─────────────────
+dataset/
+*.pth
+*.onnx
+*.h5
+*.pkl
+*.pt
+
+# ── Database (User data — private) ────────────────────────────
+app/app_data.db
+*.db
+*.sqlite3
+
+# ── Logs ───────────────────────────────────────────────────────
+*.log
+backend_log.txt
+
+# ── IDE / Editor ───────────────────────────────────────────────
+.vscode/
+.idea/
+.zencoder/
+.zenflow/
+
+# ── OS Files ───────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Streamlit ──────────────────────────────────────────────────
+.streamlit/secrets.toml
+
+# ── Jupyter ────────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ── Runtime-generated Images ───────────────────────────────────
+odir_confusion_matrices.png
+training_graphs_for_ppt.png
