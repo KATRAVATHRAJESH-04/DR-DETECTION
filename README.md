@@ -1,15 +1,17 @@
 # 👁️ Ocular Disease AI Healthcare Assistant
 
-A **production-ready, full-stack AI system** for early detection of multiple ocular diseases including Diabetic Retinopathy (DR), Glaucoma, Age-related Macular Degeneration (AMD), Cataracts, and more, using retinal fundus images.
+A **production-ready, full-stack AI system** for early detection of ocular diseases, utilizing a **Dual-Model Architecture**. It features two distinct Hybrid CNN + Vision Transformer (ViT) models:
+1. **Specialized DR Model:** Trained on the **APTOS 2019 dataset** for fine-grained 5-class Diabetic Retinopathy grading.
+2. **Multi-Disease Model:** Trained on the **ODIR-5K dataset** for 8-class broad ocular disease screening (including Glaucoma, AMD, Cataracts, and more).
 
-Built with a **Hybrid CNN + Vision Transformer** architecture trained on the ODIR-5K dataset, featuring **Grad-CAM** explainability, **Gemini AI** natural-language explanations, progression tracking, and an interactive chat.
+Built with **Grad-CAM** explainability, **Gemini AI** natural-language explanations, progression tracking, and an interactive chat.
 
 ---
 
 ## 🧠 Full Pipeline
 
 ```text
-User/Doctor → Streamlit UI → FastAPI → CNN+ViT Model → Grad-CAM → Gemini LLM → Voice Output → UI
+User/Doctor → Streamlit UI → FastAPI → CNN+ViT Model(s) → Grad-CAM → Gemini LLM → Voice Output → UI
 ```
 
 ---
@@ -30,10 +32,15 @@ project/
 ├── utils/
 │   ├── gradcam.py        # Grad-CAM heatmap generation
 │   └── preprocessing.py  # Retinal image preprocessing
+├── scripts/
+│   └── generate_graphs.py# Graph generation utility
+├── evaluation/
+│   ├── evaluate.py       # Base evaluation script
+│   └── run_eval.py       # APTOS 2019 evaluation runner
 ├── inference.py          # End-to-end inference class
 ├── training/train.py     # Model training script
 ├── odir_hybrid_model_v1.pth # Trained ODIR multi-disease model weights
-├── dr_hybrid_model.pth   # Legacy DR-only model weights
+├── dr_hybrid_model.pth   # Trained APTOS DR-only model weights
 └── requirements.txt
 ```
 
@@ -43,7 +50,7 @@ project/
 
 | Feature | Details |
 |---|---|
-| 🔬 **Multi-Disease Detection** | 8-class detection (Normal, DR, Glaucoma, Cataract, AMD, Hypertension, Myopia, Other) |
+| 🔬 **Dual-Dataset AI** | **APTOS 2019** (5-class DR) and **ODIR-5K** (8-class Multi-Disease) trained models |
 | 🔥 **Grad-CAM** | Interactive heatmap overlay showing affected retinal regions (click regions for detailed explanation) |
 | 🧠 **AI Explanation** | Gemini API medical explanations with child-friendly "ELI5" mode |
 | 📈 **Progression Tracking** | Compare past and present scans with AI-generated progression summaries |
@@ -95,7 +102,7 @@ To enable AI-powered explanations, Q&A chat, and progression summaries:
 | Disease | Description | Action |
 |---|---|---|
 | **Normal** | Healthy retina | Annual checkup |
-| **Diabetic Retinopathy** | Damage to retinal blood vessels | Monitor, lifestyle changes, or specialist care depending on severity |
+| **Diabetic Retinopathy** | Damage to retinal blood vessels (Graded 0-4 via APTOS dataset) | Monitor, lifestyle changes, or specialist care depending on severity |
 | **Glaucoma** | Optic nerve damage, often linked to eye pressure | Ophthalmologist evaluation |
 | **Cataract** | Clouding of the normally clear lens of the eye | Surgical consultation if vision impaired |
 | **AMD** | Damage to the macula affecting central vision | Urgent specialist evaluation |
