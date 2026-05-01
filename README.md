@@ -1,38 +1,39 @@
-# 👁️ DR AI Healthcare Assistant
+# 👁️ Ocular Disease AI Healthcare Assistant
 
-A **production-ready, full-stack AI system** for early detection of Diabetic Retinopathy using retinal fundus images.
+A **production-ready, full-stack AI system** for early detection of multiple ocular diseases including Diabetic Retinopathy (DR), Glaucoma, Age-related Macular Degeneration (AMD), Cataracts, and more, using retinal fundus images.
 
-Built with a **Hybrid CNN + Vision Transformer** architecture, **Grad-CAM** explainability, **Gemini AI** natural-language explanations, and **voice I/O**.
+Built with a **Hybrid CNN + Vision Transformer** architecture trained on the ODIR-5K dataset, featuring **Grad-CAM** explainability, **Gemini AI** natural-language explanations, progression tracking, and an interactive chat.
 
 ---
 
 ## 🧠 Full Pipeline
 
-```
-User → Streamlit UI → FastAPI → CNN+ViT Model → Grad-CAM → Gemini LLM → Voice Output → UI
+```text
+User/Doctor → Streamlit UI → FastAPI → CNN+ViT Model → Grad-CAM → Gemini LLM → Voice Output → UI
 ```
 
 ---
 
 ## 🗂️ Project Structure
 
-```
+```text
 project/
 ├── api/
-│   └── main.py           # FastAPI backend (/predict, /explain, /health)
+│   └── main.py           # FastAPI backend (/predict, /explain, /compare, /chat)
 ├── app/
-│   ├── ui.py             # Streamlit frontend (premium dark UI)
+│   ├── ui.py             # Streamlit frontend (premium dark UI, patient/doctor portals)
 │   ├── database.py       # SQLite user & prediction history storage
 │   ├── llm_engine.py     # Gemini AI explanation engine (with offline fallback)
 │   └── voice_engine.py   # pyttsx3 TTS + SpeechRecognition STT
 ├── models/
-│   └── hybrid_model.py   # Hybrid CNN + ViT architecture
+│   └── hybrid_model.py   # Hybrid CNN + ViT architecture (supports 8-class & 5-class)
 ├── utils/
 │   ├── gradcam.py        # Grad-CAM heatmap generation
 │   └── preprocessing.py  # Retinal image preprocessing
 ├── inference.py          # End-to-end inference class
-├── training/train.py     # Model training script (Kaggle/GPU)
-├── dr_hybrid_model.pth   # Trained model weights
+├── training/train.py     # Model training script
+├── odir_hybrid_model_v1.pth # Trained ODIR multi-disease model weights
+├── dr_hybrid_model.pth   # Legacy DR-only model weights
 └── requirements.txt
 ```
 
@@ -42,14 +43,15 @@ project/
 
 | Feature | Details |
 |---|---|
-| 🔬 **DR Detection** | 5-class classification (Grade 0–4) |
-| 🔥 **Grad-CAM** | Heatmap overlay showing affected retinal regions |
-| 🧠 **AI Explanation** | Gemini API or offline template-based explanation |
-| 🎤 **Voice Input** | WAV upload → SpeechRecognition STT |
-| 🔊 **Voice Output** | pyttsx3 offline TTS, plays in-browser |
-| 🔐 **Auth** | Persistent SQLite login/signup |
-| 📋 **Reports** | CSV + Plain-text downloadable prediction history |
-| 🎨 **Premium UI** | Dark theme, Grad-CAM side-by-side, confidence meters |
+| 🔬 **Multi-Disease Detection** | 8-class detection (Normal, DR, Glaucoma, Cataract, AMD, Hypertension, Myopia, Other) |
+| 🔥 **Grad-CAM** | Interactive heatmap overlay showing affected retinal regions (click regions for detailed explanation) |
+| 🧠 **AI Explanation** | Gemini API medical explanations with child-friendly "ELI5" mode |
+| 📈 **Progression Tracking** | Compare past and present scans with AI-generated progression summaries |
+| 🤖 **AI Chat** | Ask follow-up questions to the AI Doctor based on your scan results |
+| 🔊 **Voice I/O** | pyttsx3 offline TTS and SpeechRecognition STT capabilities |
+| 🔐 **Role-Based Portals** | Dedicated interfaces for Patients and Doctors with persistent SQLite storage |
+| 📋 **Reports** | Downloadable PDF and CSV prediction history reports |
+| 🎨 **Premium UI** | Dark theme, glassmorphism, animated UI, and confidence meters |
 
 ---
 
@@ -74,29 +76,29 @@ streamlit run app/ui.py
 ```
 
 > ℹ️ Open http://localhost:8501 in your browser.  
-> Default login: **admin / admin**
+> You can sign up as a Patient or Doctor from the login screen.
 
 ---
 
 ## 🔑 Gemini API Key (Optional)
 
-To enable AI-powered explanations:
+To enable AI-powered explanations, Q&A chat, and progression summaries:
 1. Get a free key at https://aistudio.google.com/app/apikey
-2. Paste it in the **⚙️ AI Configuration** section in the sidebar
+2. Add it to a `.env` file in the root directory: `GEMINI_API_KEY=your_key_here`
 
 > Without a key, the system uses built-in medical templates automatically.
 
 ---
 
-## 🩺 DR Grading Scale
+## 🩺 Supported Ocular Diseases
 
-| Grade | Diagnosis | Action |
+| Disease | Description | Action |
 |---|---|---|
-| 0 | No DR | Annual checkup |
-| 1 | Mild NPDR | Monitor, lifestyle changes |
-| 2 | Moderate NPDR | Ophthalmologist in 1–3 months |
-| 3 | Severe NPDR | Urgent evaluation |
-| 4 | Proliferative DR | **Immediate specialist care** |
+| **Normal** | Healthy retina | Annual checkup |
+| **Diabetic Retinopathy** | Damage to retinal blood vessels | Monitor, lifestyle changes, or specialist care depending on severity |
+| **Glaucoma** | Optic nerve damage, often linked to eye pressure | Ophthalmologist evaluation |
+| **Cataract** | Clouding of the normally clear lens of the eye | Surgical consultation if vision impaired |
+| **AMD** | Damage to the macula affecting central vision | Urgent specialist evaluation |
 
 ---
 
